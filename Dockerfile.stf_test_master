@@ -1,0 +1,12 @@
+FROM ubuntu:14.04
+
+# store dependencies and targets in environment variables
+ENV STF_WS="/stf_ws" \
+    COBERTURA_HOME="/cobertura" \
+    CONFIG_DIR="/configs" \ 
+    SCRIPT_DIR="/scripts" \ 
+    JUNIT_HOME="/junit" \
+    ECLIPSE_HOME="/eclipse"
+
+COPY src/uri_env.sh src/setup_stf_master.sh src/setup_utils.sh /
+RUN chmod +x setup_stf_master.sh && ./setup_stf_master.sh
