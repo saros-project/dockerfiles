@@ -1,0 +1,25 @@
+FROM ubuntu:14.04
+
+# store dependencies and targets in environment variables
+ENV SAROS_USER_HOME="/home/saros"
+ENV TOOLS_DIR="$SAROS_USER_HOME/ci"
+ENV WORKSPACE="$TOOLS_DIR/saros_src"
+ENV CONFIG_DIR="$WORKSPACE/travis/config" \
+    SCRIPT_DIR="$WORKSPACE/travis/script" \
+    ECLIPSE_HOME="$TOOLS_DIR/eclipse" \
+    ANT4ECLIPSE_HOME="$TOOLS_DIR/ant4eclipse" \
+    ANT4ECLIPSE_NEW_HOME="$TOOLS_DIR/ant4eclipse_new" \
+    PMD_HOME="$TOOLS_DIR/pmd" \
+    COBERTURA_HOME="$TOOLS_DIR/cobertura" \
+    COBERTURA_NEW_HOME="$TOOLS_DIR/cobertura_new" \
+    FINDBUGS_JAR="$TOOLS_DIR/findbugs-ant.jar" \
+    INTELLIJ_HOME="$TOOLS_DIR/intellij" \
+    NETBEANS_HOME="$TOOLS_DIR/netbeans" \
+    JUNIT_HOME="$TOOLS_DIR/junit" \
+    NODE_HOME="$TOOLS_DIR/node" \
+    STF_WS="$TOOLS_DIR/stf_ws"
+ENV PATH="$PATH:$NODE_HOME/bin"
+# JUnit 4.11 is necessary, because powermock (currently stored in the repository) is not compatible with 4.12
+
+COPY src/uri_env.sh src/setup_saros_test.sh src/setup_utils.sh /
+RUN chmod +x setup_saros_test.sh && ./setup_saros_test.sh
