@@ -2,5 +2,4 @@ services:
   - docker
 
 # Build all dockerfiles in root dir
-script:
-  - find -name "Dockerfile.*" -exec docker build -f {} . \;
+script: ./build.sh

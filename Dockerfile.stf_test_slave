@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
 # store dependencies and targets in environment variables
 ENV TOOLS_DIR="/"

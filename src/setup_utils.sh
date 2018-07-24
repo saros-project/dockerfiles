@@ -6,36 +6,37 @@
 tmp_d=/tmp/setup
 mkdir -p $tmp_d
 
-function clean_tmp()
+req_default_packages="unzip tar curl"
+
+function prepare_env()
 {
-  apt-get clean
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  apk add --no-cache $req_default_packages
 }
 
-function install_pmd()
+function clean_env()
 {
-  local pmd_home=$1
-
-  mkdir -p $pmd_home
-  curl -Lo $tmp_d/pmd.zip $PMD_URI
-  unzip $tmp_d/pmd.zip -d $pmd_home
-  mv $pmd_home/pmd-*/* $pmd_home/ 
+  rm -r "$tmp_d"
+  apk del $req_default_packages
 }
 
-function install_findbugs()
+function install_gradle()
 {
-  local findbugs_jar=$1
-  curl -Lo $findbugs_jar $FINDBUGS_URI
+  local gradle_home=$1
+
+  mkdir -p $gradle_home
+  curl -Lo $tmp_d/gradle.zip $GRADLE_URI
+  unzip $tmp_d/gradle.zip -d $gradle_home
+  mv $gradle_home/gradle-*/* $gradle_home/
 }
 
-function install_junit()
+function install_eclipse_plugins()
 {
-  local junit_home=$1
+  local eclipse_home=$1
+  install_eclipse "$eclipse_home"
 
-  mkdir -p $JUNIT_HOME
-  cd $JUNIT_HOME
-  curl -LO $JUNIT_URI
-  curl -LO $HAMCREST_URI
+  # Only the plugin dir is required for build
+  cd $eclipse_home
+  ls -1 | grep -v plugins | xargs rm -r
   cd -
 }
 
@@ -46,10 +47,16 @@ function install_eclipse()
   mkdir -p $eclipse_home
   curl -Lo $tmp_d/eclipse.tgz $ECLIPSE_URI
   tar -xzf $tmp_d/eclipse.tgz --strip-components=1 -C $eclipse_home
+}
 
-  cd $eclipse_home/plugins
-  curl -LO $GEF_URI
-  curl -LO $GEF_DRAW_URI
+function install_intellij_lib()
+{
+  local intellij_home=$1
+  install_intellij "$intellij_home"
+
+  # Only the lib dir is required for build
+  cd $intellij_home
+  ls -1 | grep -v lib | xargs rm -r
   cd -
 }
 
@@ -60,58 +67,7 @@ function install_intellij()
   mkdir -p $intellij_home
   curl -Lo $tmp_d/intellij.tgz $INTELLIJ_URI
   tar -xzf $tmp_d/intellij.tgz --strip-components=1 -C $intellij_home
-}
 
-function install_netbeans()
-{
-  local netbeans_home=$1
-
-  mkdir -p $netbeans_home
-  curl -Lo $tmp_d/netbeans.zip $NETBEANS_URI
-  unzip $tmp_d/netbeans.zip -d $netbeans_home
-  mv $netbeans_home/netbeans/* $netbeans_home/
-}
-
-function install_node_npm()
-{
-  local node_home=$1
-
-  mkdir -p $node_home
-  curl -Lo $tmp_d/node.tgz $NODE_URI
-  tar -xzf $tmp_d/node.tgz --strip-components=1 -C $node_home
-}
-
-function install_cobertura()
-{
-  local cobertura_home=$1
-  local version=$2
-  local uri=""
-
-  [ "$version" = "new" ] && uri=$COBERTURA_NEW_URI || uri=$COBERTURA_URI
-
-  mkdir -p $cobertura_home
-  curl -Lo $tmp_d/cobertura.tgz $uri
-  tar -xzf $tmp_d/cobertura.tgz --strip-components=1 -C $cobertura_home
-  chmod +x $cobertura_home/cobertura-instrument.sh
-
-  if [ "$version" = "new" ]; then
-    cobertura_new_jar=$(find $cobertura_home -maxdepth 1 -type f -name "cobertura-*[0-9].jar")
-    ln -s $cobertura_new_jar "$cobertura_home/cobertura.jar"
-  fi
-}
-
-function install_ant4eclipse()
-{
-  local ant4_eclipse_home=$1
-  local version=$2
-  local uri=""
-
-  [ "$version" = "new" ] && uri=$ANT4ECLIPSE_NEW_URI || uri=$ANT4ECLIPSE_URI
-
-  mkdir -p $ant4_eclipse_home
-  curl -Lo $tmp_d/ant4eclipse.tgz $uri
-  tar -xzf $tmp_d/ant4eclipse.tgz -C $ant4_eclipse_home
-  unzip $ant4_eclipse_home/org.ant4eclipse-source*.zip -d $ant4_eclipse_home/
 }
 
 function configure_vnc()
