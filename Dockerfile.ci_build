@@ -1,0 +1,8 @@
+FROM saros/gradle_alpine:openjdk-8
+
+ENV ECLIPSE_HOME="$TOOLS_DIR/eclipse" \
+    INTELLIJ_HOME="$TOOLS_DIR/intellij"
+
+COPY src/uri_env.sh src/setup_ci_build.sh src/setup_utils.sh /tmp/
+RUN chmod +x /tmp/setup_ci_build.sh && \
+  bash -c "cd /tmp; ./setup_ci_build.sh"

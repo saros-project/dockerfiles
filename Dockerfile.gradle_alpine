@@ -1,0 +1,14 @@
+FROM openjdk:8-jdk-alpine3.8
+
+# store dependencies and targets in environment variables
+ENV TOOLS_DIR="/home/ci"
+ENV WORKSPACE="$TOOLS_DIR/saros_src"
+ENV CONFIG_DIR="$WORKSPACE/travis/config" \
+    SCRIPT_DIR="$WORKSPACE/travis/script" \
+    GRADLE_HOME="$TOOLS_DIR/gradle" \
+    STF_WS="$TOOLS_DIR/stf_ws"
+
+COPY src/uri_env.sh src/setup_gradle.sh src/setup_utils.sh /tmp/
+RUN apk add --no-cache bash && \
+  chmod +x /tmp/setup_gradle.sh && \
+  bash -c "cd /tmp; ./setup_gradle.sh"
