@@ -1,5 +1,0 @@
-services:
-  - docker
-
-# Build all dockerfiles in root dir
-script: ./build.sh
