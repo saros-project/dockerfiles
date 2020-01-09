@@ -19,16 +19,6 @@ function clean_env()
   apk del $req_default_packages
 }
 
-function install_gradle()
-{
-  local gradle_home=$1
-
-  mkdir -p $gradle_home
-  curl -Lo $tmp_d/gradle.zip $GRADLE_URI
-  unzip $tmp_d/gradle.zip -d $gradle_home
-  mv $gradle_home/gradle-*/* $gradle_home/
-}
-
 function install_eclipse_plugins()
 {
   local eclipse_home=$1

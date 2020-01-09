@@ -33,7 +33,6 @@ The build process should fail if a command of the corresponding setup bash scrip
 ## Explanation of provided images
 The following images are provided:
  * Saros test, build and stf testing master image (Dockerfile: `Dockerfile.ci_build`)
- * Gradle alpine image, which is the basis of the previous images (Dockerfile: `Dockerfile.gradle_alpine`).
  * Saros stf testing slave (Dockerfile: `Dockerfile.stf_test_slave`)
  * Saros stf testing xmpp server (Dockerfile: `Dockerfile.stf_xmpp_server`)
 
