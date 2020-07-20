@@ -8,6 +8,6 @@ prepare_env
 
 install_eclipse $ECLIPSE_HOME
 install_intellij $INTELLIJ_HOME
-apk add --no-cache npm git
+apk add --no-cache npm git gtk+3.0
 
 clean_env
