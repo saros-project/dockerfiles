@@ -1,5 +1,5 @@
 # Saros Dockerfile
-This repository contains all files and scripts to create the docker images which are required for the CI jobs.
+This repository contains all files and scripts to create the docker images which are required for the CI's STF execution.
 In order to work with docker a docker client installation is required.
 
 ## Create a new image tag in Docker Hub
@@ -28,31 +28,16 @@ The build process should fail if a command of the corresponding setup bash scrip
 * A bug in a Dockerfile or script
 * One of the following external dependencies is not available:
   * A docker image which is used as the basis for our images
-  * A uri which is defined in `src/uri_env.sh` is not reachable
 
 ## Explanation of provided images
 The following images are provided:
- * Saros test, build and stf testing coordinator image (Dockerfile: `Dockerfile.ci_build`)
- * Gradle alpine image, which is the basis of the previous images (Dockerfile: `Dockerfile.gradle_alpine`).
+ * Saros stf testing coordinator image (Dockerfile: `Dockerfile.ci_build`)
  * Saros stf testing worker (Dockerfile: `Dockerfile.stf_test_worker`)
  * Saros stf testing xmpp server (Dockerfile: `Dockerfile.stf_xmpp_server`)
 
 The main logic of the image creations is located in the corresponding setup script in `src`.
 
-## Saros test and build image
-
-### Usage in Build and Unit-Testing
-This image is used to run the gradle build and test process for Saros/E and Saros/I.
-Therefore it contains all tools to build the following components:
- * Saros Core
- * Saros UI
- * Saros/E
- * Saros/I
- * Saros Server
- * Saros Whiteboard
- * Saros HTML GUI
-
-### Usage in STF Testing
+## STF testing coordinator
 This image is used during the STF test process to trigger the test execution on testing workers.
 Therefore the image contains only a few tools which are required for the execution of the tests.
 

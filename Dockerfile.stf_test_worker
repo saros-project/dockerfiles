@@ -5,11 +5,10 @@ ENV TOOLS_DIR="/"
 ENV ECLIPSE_HOME=$TOOLS_DIR"eclipse" \
     USER=root \
     VNC_PWD=testpwd \
-    COBERTURA_HOME=$TOOLS_DIR"cobertura" \
     STF_WS=$TOOLS_DIR"stf_ws" \
     SCRIPT_DIR=$TOOLS_DIR"scripts" \
     CONFIG_DIR=$TOOLS_DIR"configs" 
 
-COPY src/uri_env.sh src/setup_stf_worker.sh src/setup_utils.sh /
+COPY src/setup_stf_worker.sh /
 COPY config/stf_worker/xfce4-panel.xml /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 RUN chmod +x setup_stf_worker.sh && ./setup_stf_worker.sh
