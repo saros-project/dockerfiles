@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# Script for local docker build the productive image is created by docker cloud
+# Script for local docker build the productive image is created by docker hub
 
 project_name="saros"
 version="test"
