@@ -16,6 +16,7 @@ If you want to publish a new image you have to:
   * `git push --tags origin coordinator`
 
 ## Build images locally
+
 ### Prerequisites
 * Local installation of docker
 
