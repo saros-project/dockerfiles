@@ -44,4 +44,3 @@ Therefore the image contains only a few tools which are required for the executi
 ## STF testing worker
 This image is used during the STF test process to run the tests.
 Therefore the image contains an eclipse and vncserver installation.
-
