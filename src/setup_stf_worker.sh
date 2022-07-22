@@ -1,5 +1,17 @@
 #!/bin/bash -xe
 
+function install_temurin_jdk()
+{
+  # eclipse temurin jdk repo
+  # see https://adoptium.net/de/installation/linux/
+  mkdir -p /etc/apt/keyrings
+  curl -Lo /etc/apt/keyrings/adoptium.asc https://packages.adoptium.net/artifactory/api/gpg/key/public
+  echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+
+  apt-get -qq update
+  apt-get install -y temurin-11-jdk
+}
+
 function install_eclipse()
 {
   local eclipse_home=$1
@@ -40,7 +52,6 @@ apt-get -qq update
 apt-get install -y \
   curl \
   tar \
-  openjdk-8-jdk \
   unzip \
   dbus-x11 \
   net-tools \
@@ -48,6 +59,7 @@ apt-get install -y \
 
 apt-get install -y --no-install-recommends xfce4
 
+install_temurin_jdk
 install_eclipse $ECLIPSE_HOME
 configure_vnc $VNC_PWD
 
